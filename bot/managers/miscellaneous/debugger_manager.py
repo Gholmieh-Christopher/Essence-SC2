@@ -14,10 +14,13 @@ import numpy
 # Classes:
 class DebuggerManager:
     # Configuration:
-    DRAW_PLACEMENT_GRID: bool = True
-    DRAW_PATHING_GRID: bool = True
+    DRAW_PLACEMENT_GRID: bool = False
+    DRAW_VISIBLITY_PIXELMAP: bool = True
+    DRAW_PATHING_GRID: bool = False
     DRAW_EXPANSIONS: bool = True
 
+    VISIBILITY_PIXELMAP_UNSEEN_COLOR: Point3 = Point3((255, 0, 0))
+    VISIBILITY_PIXELMAP_SEEN_COLOR: Point3 = Point3((0, 0, 255))
     PLACEMENT_GRID_COLOR: Point3 = Point3((255, 255, 255))
     PATHING_GRID_COLOR: Point3 = Point3((0, 255, 0))
     EXPANSION_COLOR: Point3 = Point3((0, 0, 255))
@@ -33,6 +36,9 @@ class DebuggerManager:
         self.AI: BotAI = AI
 
         # Calling Methods:
+        if self.DRAW_VISIBLITY_PIXELMAP is True:
+            self.draw_visibility_pixelmap()
+
         if self.DRAW_PLACEMENT_GRID is True:
             self.draw_grid(
                 self.AI.game_info.placement_grid.data_numpy, self.PLACEMENT_GRID_COLOR
@@ -47,6 +53,35 @@ class DebuggerManager:
             self.draw_expansions()
 
     # Methods:
+    def draw_visibility_pixelmap(self) -> None:
+        for (y, x), value in numpy.ndenumerate(self.AI.state.visibility.data_numpy):
+            position: Point2 = Point2((x, y))
+
+            three_dimensional_coordinate: Point3 = Point3((
+                position.x,
+                position.y,
+                self.AI.get_terrain_z_height(position)
+            ))
+
+            bound_0: Point3 = Point3((
+                three_dimensional_coordinate.x - 0.25,
+                three_dimensional_coordinate.y - 0.25,
+                three_dimensional_coordinate.z + 0.25,
+            ))
+
+            bound_1: Point3 = Point3((
+                three_dimensional_coordinate.x + 0.25,
+                three_dimensional_coordinate.y + 0.25,
+                three_dimensional_coordinate.z - 0.25,
+            ))
+
+            color: Point3 = self.VISIBILITY_PIXELMAP_UNSEEN_COLOR
+
+            if value == 2:
+                color: Point3 = self.VISIBILITY_PIXELMAP_SEEN_COLOR
+
+            self.AI.client.debug_box_out(bound_0, bound_1, color=color)
+
     def draw_expansions(self) -> None:
         for expansion_position in self.AI.expansion_locations_list:
             self.AI.client.debug_box2_out(
@@ -102,3 +137,5 @@ class DebuggerManager:
                 bound_1,
                 color=color,
             )
+
+        
