@@ -57,23 +57,25 @@ class DebuggerManager:
         for (y, x), value in numpy.ndenumerate(self.AI.state.visibility.data_numpy):
             position: Point2 = Point2((x, y))
 
-            three_dimensional_coordinate: Point3 = Point3((
-                position.x,
-                position.y,
-                self.AI.get_terrain_z_height(position)
-            ))
+            three_dimensional_coordinate: Point3 = Point3(
+                (position.x, position.y, self.AI.get_terrain_z_height(position))
+            )
 
-            bound_0: Point3 = Point3((
-                three_dimensional_coordinate.x - 0.25,
-                three_dimensional_coordinate.y - 0.25,
-                three_dimensional_coordinate.z + 0.25,
-            ))
+            bound_0: Point3 = Point3(
+                (
+                    three_dimensional_coordinate.x - 0.25,
+                    three_dimensional_coordinate.y - 0.25,
+                    three_dimensional_coordinate.z + 0.25,
+                )
+            )
 
-            bound_1: Point3 = Point3((
-                three_dimensional_coordinate.x + 0.25,
-                three_dimensional_coordinate.y + 0.25,
-                three_dimensional_coordinate.z - 0.25,
-            ))
+            bound_1: Point3 = Point3(
+                (
+                    three_dimensional_coordinate.x + 0.25,
+                    three_dimensional_coordinate.y + 0.25,
+                    three_dimensional_coordinate.z - 0.25,
+                )
+            )
 
             color: Point3 = self.VISIBILITY_PIXELMAP_UNSEEN_COLOR
 
@@ -137,5 +139,3 @@ class DebuggerManager:
                 bound_1,
                 color=color,
             )
-
-        
