@@ -31,3 +31,7 @@ class EssenceSC2(BotAI):
         # Managers:
         self.DebuggerManager.update(self)
         self.GameInfoManager.update(self)
+
+    # Methods:
+    async def on_unit_destroyed(self, unit_tag: int):
+        self.GameInfoManager.on_unit_destroyed(unit_tag)

@@ -5,11 +5,16 @@
 # > Bot AI:
 from sc2.bot_ai import BotAI, Race
 
-# > IDs:
-from sc2.ids.unit_typeid import UnitTypeId
+# Dictionaries:
+from bot.dictionaries import PROTOSS
 
 # Managers:
 class GameInfoManager:
+    # Configuration:
+    REGISTRY: dict = {
+        Race.Protoss: PROTOSS,
+    }
+
     # Initialization:
     def __init__(self, AI: BotAI) -> None:
         # Miscellaneous:
@@ -18,8 +23,10 @@ class GameInfoManager:
         self.enemy_race: Race = AI.enemy_race
 
         # Dictionaries:
-        #self.enemy_technology_structures: dict = {}
-        #self.enemy_memory_cache: dict = {}
+        self.enemy_structure_cache: dict = {}
+
+        # Sets:
+        self.enemy_can_produce: set = set()
 
     # Functions:
     def update(self, AI: BotAI) -> None:
@@ -30,23 +37,37 @@ class GameInfoManager:
         if self.enemy_race == Race.Random:
             self.identify_race()
 
-        #self.update_enemy_technology_tree()
+        self.update_enemy_production()
+
+        print("-----------------------------------------------")
+        print(self.enemy_can_produce)
 
     # Methods:
-    """def update_enemy_technology_tree(self) -> None:
+    def update_enemy_production(self) -> None:
         for enemy_structure in self.AI.enemy_structures:
-            if (
-                enemy_structure.tag not in self.enemy_memory_cache
-                and enemy_structure.position not in self.enemy_memory_cache.values()
-            ):
-                self.enemy_memory_cache[enemy_structure.tag] = enemy_structure.position
-                self.enemy_technology_structures[enemy_structure.tag] = (
-                    enemy_structure.unit_alias
-                    if enemy_structure.unit_alias is not None
-                    else enemy_structure.type_id
-                )
-    """
-    
+            key = (
+                enemy_structure.tech_alias
+                if enemy_structure.tech_alias is not None
+                else enemy_structure.type_id
+            )
+
+            if self.REGISTRY[self.enemy_race].get(key) is None:
+                continue
+
+            self.enemy_structure_cache[enemy_structure.tag] = key
+
+            for enemy_unit_id in self.REGISTRY[self.enemy_race][key]:
+                self.enemy_can_produce.add(enemy_unit_id)
+
+    def on_unit_destroyed(self, unit_tag: int) -> None:
+        if unit_tag not in self.enemy_structure_cache:
+            return None
+
+        key = self.enemy_structure_cache[unit_tag]
+
+        for enemy_unit_id in self.REGISTRY[self.enemy_race][key]:
+            self.enemy_can_produce.remove(enemy_unit_id)
+
     def identify_race(self) -> None:
         for enemy_structure in self.AI.enemy_structures:
             self.enemy_race = enemy_structure.race
