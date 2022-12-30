@@ -15,9 +15,9 @@ import numpy
 class DebuggerManager:
     # Configuration:
     DRAW_PLACEMENT_GRID: bool = False
-    DRAW_VISIBLITY_PIXELMAP: bool = True
+    DRAW_VISIBLITY_PIXELMAP: bool = False
     DRAW_PATHING_GRID: bool = False
-    DRAW_EXPANSIONS: bool = True
+    DRAW_EXPANSIONS: bool = False
 
     VISIBILITY_PIXELMAP_UNSEEN_COLOR: Point3 = Point3((255, 0, 0))
     VISIBILITY_PIXELMAP_SEEN_COLOR: Point3 = Point3((0, 0, 255))

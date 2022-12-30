@@ -31,7 +31,3 @@ class EssenceSC2(BotAI):
         # Managers:
         self.DebuggerManager.update(self)
         self.GameInfoManager.update(self)
-
-    async def on_enemy_unit_entered_vision(self, unit):
-        print(unit.tag)
-
