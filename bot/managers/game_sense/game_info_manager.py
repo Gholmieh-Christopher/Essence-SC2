@@ -6,7 +6,7 @@
 from sc2.bot_ai import BotAI, Race
 
 # Dictionaries:
-from bot.dictionaries import PROTOSS, TERRAN
+from bot.dictionaries import PROTOSS, TERRAN, ZERG
 
 # Managers:
 class GameInfoManager:
@@ -14,6 +14,7 @@ class GameInfoManager:
     REGISTRY: dict = {
         Race.Protoss: PROTOSS,
         Race.Terran: TERRAN,
+        Race.Zerg: ZERG,
     }
 
     # Initialization:
@@ -52,7 +53,7 @@ class GameInfoManager:
                 else enemy_structure.type_id
             )
 
-            if self.enemy_race == Race.Terran:
+            if self.enemy_race == Race.Terran or self.enemy_race == Race.Zerg:
                 key = enemy_structure.type_id
 
             if self.REGISTRY[self.enemy_race].get(key) is None:

@@ -68,3 +68,18 @@ TERRAN: dict = {
     },
     UnitTypeId.FUSIONCORE: {UnitTypeId.BATTLECRUISER}
 }
+
+ZERG: dict = {
+    UnitTypeId.HATCHERY: {UnitTypeId.DRONE},
+    UnitTypeId.SPAWNINGPOOL: {UnitTypeId.ZERGLING, UnitTypeId.QUEEN},
+    UnitTypeId.BANELINGNEST: {UnitTypeId.BANELING},
+    UnitTypeId.ROACHWARREN: {UnitTypeId.ROACH, UnitTypeId.RAVAGER},
+    UnitTypeId.HYDRALISKDEN: {UnitTypeId.HYDRALISK},
+    UnitTypeId.LURKERDEN: {UnitTypeId.LURKER},
+    UnitTypeId.INFESTATIONPIT: {UnitTypeId.SWARMHOSTMP, UnitTypeId.INFESTOR},
+    UnitTypeId.SPIRE: {UnitTypeId.MUTALISK, UnitTypeId.CORRUPTOR},
+    UnitTypeId.ULTRALISKCAVERN: {UnitTypeId.ULTRALISK},
+    UnitTypeId.GREATERSPIRE: {UnitTypeId.BROODLORD},
+    UnitTypeId.LAIR: {UnitTypeId.OVERSEER, UnitTypeId.OVERLORDTRANSPORT},
+    UnitTypeId.HIVE: {UnitTypeId.VIPER}
+}
