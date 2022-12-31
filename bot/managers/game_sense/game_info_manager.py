@@ -6,13 +6,14 @@
 from sc2.bot_ai import BotAI, Race
 
 # Dictionaries:
-from bot.dictionaries import PROTOSS
+from bot.dictionaries import PROTOSS, TERRAN
 
 # Managers:
 class GameInfoManager:
     # Configuration:
     REGISTRY: dict = {
         Race.Protoss: PROTOSS,
+        Race.Terran: TERRAN,
     }
 
     # Initialization:
@@ -39,7 +40,7 @@ class GameInfoManager:
 
         self.update_enemy_production()
 
-        print("-----------------------------------------------")
+        print('-----------------------------------')
         print(self.enemy_can_produce)
 
     # Methods:
@@ -50,6 +51,9 @@ class GameInfoManager:
                 if enemy_structure.tech_alias is not None
                 else enemy_structure.type_id
             )
+
+            if self.enemy_race == Race.Terran:
+                key = enemy_structure.type_id
 
             if self.REGISTRY[self.enemy_race].get(key) is None:
                 continue
@@ -67,6 +71,8 @@ class GameInfoManager:
 
         for enemy_unit_id in self.REGISTRY[self.enemy_race][key]:
             self.enemy_can_produce.remove(enemy_unit_id)
+
+        del self.enemy_structure_cache[unit_tag]
 
     def identify_race(self) -> None:
         for enemy_structure in self.AI.enemy_structures:

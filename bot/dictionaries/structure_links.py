@@ -29,3 +29,42 @@ PROTOSS: dict = {
     },
     UnitTypeId.FLEETBEACON: {UnitTypeId.CARRIER, UnitTypeId.TEMPEST}
 }
+
+TERRAN: dict = {
+    UnitTypeId.COMMANDCENTER: {UnitTypeId.SCV},
+    UnitTypeId.BARRACKS: {UnitTypeId.MARINE, UnitTypeId.REAPER},
+    UnitTypeId.BARRACKSTECHLAB: {
+        UnitTypeId.MARINE,
+        UnitTypeId.REAPER,
+        UnitTypeId.MARAUDER,
+    },
+    UnitTypeId.BARRACKSREACTOR: {UnitTypeId.MARINE, UnitTypeId.REAPER},
+    UnitTypeId.GHOSTACADEMY: {UnitTypeId.GHOST},
+    UnitTypeId.FACTORY: {UnitTypeId.HELLION, UnitTypeId.WIDOWMINE},
+    UnitTypeId.FACTORYTECHLAB: {
+        UnitTypeId.HELLION,
+        UnitTypeId.WIDOWMINE,
+        UnitTypeId.CYCLONE,
+        UnitTypeId.SIEGETANK,
+    },
+    UnitTypeId.FACTORYREACTOR: {UnitTypeId.HELLION, UnitTypeId.WIDOWMINE},
+    UnitTypeId.ARMORY: {UnitTypeId.HELLIONTANK, UnitTypeId.THOR},
+    UnitTypeId.STARPORT: {
+        UnitTypeId.LIBERATOR,
+        UnitTypeId.MEDIVAC,
+        UnitTypeId.VIKING,
+    },
+    UnitTypeId.STARPORTTECHLAB: {
+        UnitTypeId.LIBERATOR,
+        UnitTypeId.MEDIVAC,
+        UnitTypeId.VIKING,
+        UnitTypeId.RAVEN,
+        UnitTypeId.BANSHEE,
+    },
+    UnitTypeId.STARPORTREACTOR: {
+        UnitTypeId.LIBERATOR,
+        UnitTypeId.MEDIVAC,
+        UnitTypeId.VIKING,
+    },
+    UnitTypeId.FUSIONCORE: {UnitTypeId.BATTLECRUISER}
+}

@@ -1,1 +1,1 @@
-from .structure_links import PROTOSS
+from .structure_links import PROTOSS, TERRAN
