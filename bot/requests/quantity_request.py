@@ -11,6 +11,9 @@ from sc2.bot_ai import BotAI
 # > Units:
 from sc2.units import Units
 
+# > Unit:
+from sc2.unit import Unit
+
 # > IDs:
 from sc2.ids.unit_typeid import UnitTypeId
 
@@ -43,13 +46,13 @@ class QuantityRequest:
     # Methods:
     async def execute(self, AI: BotAI) -> Enumeration:
         # Guardian Statements:
-        if (AI.supply_army + AI.supply_workers) != self.supply_trigger:
-            return RequestReturns.NOT_APPROPRIATE_SUPPLY
-
         if AI.can_afford(self.action_id) is False:
             return RequestReturns.NOT_ENOUGH_RESOURCES
 
         if self.request_type == RequestTypes.TRAIN_REQUEST:
+            if (AI.supply_army + AI.supply_workers) != self.supply_trigger:
+                return RequestReturns.NOT_APPROPRIATE_SUPPLY
+
             if self.action_id in WARPGATE_UNITS:
                 # TODO: Make it function for warpgate units and gateway units, should be easy.
                 return RequestReturns.OKAY_RETURN
@@ -63,4 +66,23 @@ class QuantityRequest:
 
                 break
 
+        elif self.request_type == RequestTypes.BUILD_REQUEST:
+            # Finding Placement:
+            target: typing.Optional[Point2] = None
+            
+            if not await AI.can_place_single(self.action_id, self.position):
+                target = await AI.find_placement(self.action_id, near=self.position)
+            else:
+                target = self.position
+
+            if not target:
+                return RequestReturns.POSITION_BLOCKED
+
+            worker: Unit = AI.workers.closest_to(target)
+            if worker is None:
+                return RequestReturns.NO_WORKER
+
+            worker.build(self.action_id, target)
+
         return RequestReturns.OKAY_RETURN
+
