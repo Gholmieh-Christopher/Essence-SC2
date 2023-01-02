@@ -23,11 +23,11 @@ PROTOSS: dict = {
     },
     UnitTypeId.ROBOTICSBAY: {UnitTypeId.COLOSSUS, UnitTypeId.DISRUPTOR},
     UnitTypeId.STARGATE: {
-        UnitTypeId.VOIDRAY, 
+        UnitTypeId.VOIDRAY,
         UnitTypeId.ORACLE,
         UnitTypeId.PHOENIX,
     },
-    UnitTypeId.FLEETBEACON: {UnitTypeId.CARRIER, UnitTypeId.TEMPEST}
+    UnitTypeId.FLEETBEACON: {UnitTypeId.CARRIER, UnitTypeId.TEMPEST},
 }
 
 TERRAN: dict = {
@@ -66,7 +66,7 @@ TERRAN: dict = {
         UnitTypeId.MEDIVAC,
         UnitTypeId.VIKING,
     },
-    UnitTypeId.FUSIONCORE: {UnitTypeId.BATTLECRUISER}
+    UnitTypeId.FUSIONCORE: {UnitTypeId.BATTLECRUISER},
 }
 
 ZERG: dict = {
@@ -81,5 +81,5 @@ ZERG: dict = {
     UnitTypeId.ULTRALISKCAVERN: {UnitTypeId.ULTRALISK},
     UnitTypeId.GREATERSPIRE: {UnitTypeId.BROODLORD},
     UnitTypeId.LAIR: {UnitTypeId.OVERSEER, UnitTypeId.OVERLORDTRANSPORT},
-    UnitTypeId.HIVE: {UnitTypeId.VIPER}
+    UnitTypeId.HIVE: {UnitTypeId.VIPER},
 }

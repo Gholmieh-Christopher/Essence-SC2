@@ -41,9 +41,6 @@ class GameInfoManager:
 
         self.update_enemy_production()
 
-        print('-----------------------------------')
-        print(self.enemy_can_produce)
-
     # Methods:
     def update_enemy_production(self) -> None:
         for enemy_structure in self.AI.enemy_structures:
