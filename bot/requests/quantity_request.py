@@ -33,7 +33,11 @@ from bot.core import Enumeration
 class QuantityRequest:
     # Initialization:
     def __init__(
-            self, supply_trigger: int, request_type: Enumeration, action_id: UnitTypeId, position: typing.Optional[Point2]
+        self,
+        supply_trigger: int,
+        request_type: Enumeration,
+        action_id: UnitTypeId,
+        position: typing.Optional[Point2],
     ) -> None:
         # Integers:
         self.supply_trigger: int = supply_trigger
@@ -69,7 +73,7 @@ class QuantityRequest:
         elif self.request_type == RequestTypes.BUILD_REQUEST:
             # Finding Placement:
             target: typing.Optional[Point2] = None
-            
+
             if not await AI.can_place_single(self.action_id, self.position):
                 target = await AI.find_placement(self.action_id, near=self.position)
             else:
@@ -85,4 +89,3 @@ class QuantityRequest:
             worker.build(self.action_id, target)
 
         return RequestReturns.OKAY_RETURN
-

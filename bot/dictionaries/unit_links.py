@@ -13,13 +13,11 @@ PROTOSS_UNIT_LINKS: dict = {
     UnitTypeId.SENTRY: {UnitTypeId.WARPGATE, UnitTypeId.GATEWAY},
     UnitTypeId.DARKTEMPLAR: {UnitTypeId.WARPGATE, UnitTypeId.GATEWAY},
     UnitTypeId.HIGHTEMPLAR: {UnitTypeId.WARPGATE, UnitTypeId.GATEWAY},
-
     UnitTypeId.OBSERVER: {UnitTypeId.ROBOTICSFACILITY},
     UnitTypeId.IMMORTAL: {UnitTypeId.ROBOTICSFACILITY},
     UnitTypeId.WARPPRISM: {UnitTypeId.ROBOTICSFACILITY},
     UnitTypeId.COLOSSUS: {UnitTypeId.COLOSSUS},
     UnitTypeId.DISRUPTOR: {UnitTypeId.DISRUPTOR},
-
     UnitTypeId.VOIDRAY: {UnitTypeId.STARGATE},
     UnitTypeId.PHOENIX: {UnitTypeId.STARGATE},
     UnitTypeId.ORACLE: {UnitTypeId.STARGATE},
@@ -27,11 +25,13 @@ PROTOSS_UNIT_LINKS: dict = {
     UnitTypeId.CARRIER: {UnitTypeId.CARRIER},
 }
 
-WARPGATE_UNITS: set = set({
-    UnitTypeId.ZEALOT,
-    UnitTypeId.STALKER,
-    UnitTypeId.SENTRY,
-    UnitTypeId.ADEPT,
-    UnitTypeId.DARKTEMPLAR,
-    UnitTypeId.HIGHTEMPLAR
-})
+WARPGATE_UNITS: set = set(
+    {
+        UnitTypeId.ZEALOT,
+        UnitTypeId.STALKER,
+        UnitTypeId.SENTRY,
+        UnitTypeId.ADEPT,
+        UnitTypeId.DARKTEMPLAR,
+        UnitTypeId.HIGHTEMPLAR,
+    }
+)
