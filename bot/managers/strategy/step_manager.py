@@ -52,7 +52,6 @@ class StepManager:
                     continue
 
             result = await step.execute(AI)
-
             if result == StepReturns.SUCCESSFUL_RETURN:
                 self.verifying.append(step)
 
@@ -63,7 +62,6 @@ class StepManager:
         for step in self.verifying:
             if step in self.sequence:
                 del self.sequence[self.sequence.index(step)]
-
             if (
                 AI.structures.of_type(step.action_id).amount
                 + AI.already_pending(step.action_id)

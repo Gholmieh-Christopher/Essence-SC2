@@ -54,13 +54,14 @@ class SupplyStep:
         if AI.can_afford(self.action_id) is False:
             return StepReturns.NOT_ENOUGH_RESOURCES_RETURN
 
-        if (
-            AI.supply_army + AI.supply_workers + AI.already_pending(self.action_id)
-        ) != self.supply_trigger:
-            return StepReturns.NOT_APPROPRIATE_SUPPLY_RETURN
-
         # Train Request:
         if self.step_action == StepActions.TRAIN_ACTION:
+            # Guardian Statement:
+            if (
+                AI.supply_army + AI.supply_workers + AI.already_pending(self.action_id)
+            ) != self.supply_trigger and self.amount == 0:
+                return StepReturns.NOT_APPROPRIATE_SUPPLY_RETURN
+
             if self.action_id not in WARPGATE_UNITS:
 
                 structures: Units = AI.structures.of_type(
@@ -71,8 +72,11 @@ class SupplyStep:
                     return StepReturns.NO_STRUCTURE_TO_PRODUCE_UNIT_RETURN
 
                 for iteration in range(self.quantity):
-                    if self.amount > self.quantity:
+                    if self.amount >= self.quantity:
                         break
+
+                    if AI.can_afford(self.action_id) is False:
+                        return StepReturns.NOT_ENOUGH_RESOURCES_RETURN
 
                     if not any(structures.idle):
                         structures.random.train(self.action_id, queue=self.queue)
@@ -81,4 +85,4 @@ class SupplyStep:
 
                     self.amount += 1
 
-                return StepReturns.SUCCESSFUL_RETURN
+                    return StepReturns.SUCCESSFUL_RETURN
