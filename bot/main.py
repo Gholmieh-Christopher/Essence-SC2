@@ -10,7 +10,7 @@ from sc2.bot_ai import BotAI, Race
 from loguru import logger
 
 # Managers:
-from .managers import DebuggerManager, GameInfoManager
+from .managers import DebuggerManager, GameInfoManager, StepManager
 
 # Classes:
 class EssenceSC2(BotAI):
@@ -23,6 +23,7 @@ class EssenceSC2(BotAI):
         # Manager References:
         self.DebuggerManager: DebuggerManager = DebuggerManager(self)
         self.GameInfoManager: GameInfoManager = GameInfoManager(self)
+        self.StepManager: StepManager = StepManager(self.GameInfoManager, self)
 
         # Debugging:
         logger.info("Game initialized!")
@@ -31,6 +32,8 @@ class EssenceSC2(BotAI):
         # Managers:
         self.DebuggerManager.update(self)
         self.GameInfoManager.update(self)
+
+        await self.StepManager.update(self)
 
     # Methods:
     async def on_unit_destroyed(self, unit_tag: int):
