@@ -16,3 +16,4 @@ class StepReturns:
         2, "NOT_ENOUGH_RESOURCES_RETURN"
     )
     SUCCESSFUL_RETURN: Enumeration = Enumeration(3, "SUCCESSFUL_RETURN")
+    POSITION_BLOCKED_RETURN: Enumeration = Enumeration(4, "POSITION_BLOCKED_RETURN")

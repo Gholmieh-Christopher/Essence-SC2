@@ -4,6 +4,7 @@
 # Starcraft II:
 # > IDs:
 from sc2.ids.unit_typeid import UnitTypeId
+from sc2.ids.ability_id import AbilityId
 
 # Dictionaries:
 PROTOSS_UNIT_LINKS: dict = {
@@ -25,13 +26,19 @@ PROTOSS_UNIT_LINKS: dict = {
     UnitTypeId.CARRIER: {UnitTypeId.CARRIER},
 }
 
-WARPGATE_UNITS: set = set(
-    {
-        UnitTypeId.ZEALOT,
-        UnitTypeId.STALKER,
-        UnitTypeId.SENTRY,
-        UnitTypeId.ADEPT,
-        UnitTypeId.DARKTEMPLAR,
-        UnitTypeId.HIGHTEMPLAR,
-    }
-)
+WARPGATE_UNITS: set = {
+    UnitTypeId.ZEALOT,
+    UnitTypeId.STALKER,
+    UnitTypeId.SENTRY,
+    UnitTypeId.ADEPT,
+    UnitTypeId.DARKTEMPLAR,
+    UnitTypeId.HIGHTEMPLAR,
+}
+
+UNIT_TO_WARP: dict = {
+    UnitTypeId.ZEALOT: AbilityId.WARPGATETRAIN_ZEALOT,
+    UnitTypeId.STALKER: AbilityId.WARPGATETRAIN_STALKER,
+    UnitTypeId.SENTRY: AbilityId.WARPGATETRAIN_SENTRY,
+    UnitTypeId.DARKTEMPLAR: AbilityId.WARPGATETRAIN_DARKTEMPLAR,
+    UnitTypeId.HIGHTEMPLAR: AbilityId.WARPGATETRAIN_HIGHTEMPLAR
+}

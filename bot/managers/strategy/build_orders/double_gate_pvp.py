@@ -23,6 +23,9 @@ class DoubleGatePVP:
     def sequence(self) -> list:
         return [
             SupplyStep(
-                12, 2, 0, False, StepActions.TRAIN_ACTION, UnitTypeId.PROBE, None
+                12, 1, 0, False, StepActions.TRAIN_ACTION, UnitTypeId.PROBE, None
+            ),
+            SupplyStep(
+                13, 1, 0, False, StepActions.TRAIN_ACTION, UnitTypeId.ZEALOT, None
             ),
         ]
