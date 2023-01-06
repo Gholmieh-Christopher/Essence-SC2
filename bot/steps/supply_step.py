@@ -49,20 +49,24 @@ class SupplyStep:
     positions: typing.Union[typing.List, Point2, None]
 
     # Methods:
-    async def execute(self, AI: BotAI) -> Enumeration:        
+    async def execute(self, AI: BotAI) -> Enumeration:
         # Guardian Statements:
         if AI.can_afford(self.action_id) is False:
             return StepReturns.NOT_ENOUGH_RESOURCES_RETURN
 
-        if (AI.supply_army + AI.supply_workers + AI.already_pending(self.action_id)) != self.supply_trigger:
+        if (
+            AI.supply_army + AI.supply_workers + AI.already_pending(self.action_id)
+        ) != self.supply_trigger:
             return StepReturns.NOT_APPROPRIATE_SUPPLY_RETURN
 
         # Train Request:
         if self.step_action == StepActions.TRAIN_ACTION:
             if self.action_id not in WARPGATE_UNITS:
 
-                structures: Units = AI.structures.of_type(PROTOSS_UNIT_LINKS[self.action_id]).ready
-            
+                structures: Units = AI.structures.of_type(
+                    PROTOSS_UNIT_LINKS[self.action_id]
+                ).ready
+
                 if not any(structures):
                     return StepReturns.NO_STRUCTURE_TO_PRODUCE_UNIT_RETURN
 
@@ -71,9 +75,9 @@ class SupplyStep:
                         break
 
                     if not any(structures.idle):
-                        structures.random.train(self.action_id, queue = self.queue)
+                        structures.random.train(self.action_id, queue=self.queue)
                     else:
-                        structures.idle.random.train(self.action_id, queue = self.queue)
+                        structures.idle.random.train(self.action_id, queue=self.queue)
 
                     self.amount += 1
 

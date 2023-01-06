@@ -22,6 +22,10 @@ class DoubleGatePVP:
     @property
     def sequence(self) -> list:
         return [
-            SupplyStep(12, 1, 0, False, StepActions.TRAIN_ACTION, UnitTypeId.PROBE, None),
-            SupplyStep(13, 1, 0, True, StepActions.TRAIN_ACTION, UnitTypeId.PROBE, None),
+            SupplyStep(
+                12, 1, 0, False, StepActions.TRAIN_ACTION, UnitTypeId.PROBE, None
+            ),
+            SupplyStep(
+                13, 1, 0, True, StepActions.TRAIN_ACTION, UnitTypeId.PROBE, None
+            ),
         ]
