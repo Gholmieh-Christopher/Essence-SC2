@@ -9,6 +9,9 @@ from sc2.bot_ai import BotAI, Race
 # > Logger:
 from loguru import logger
 
+# Managers:
+from .managers import DebuggingManager
+
 # Classes:
 class EssenceSC2(BotAI):
     # Configuration:
@@ -19,6 +22,15 @@ class EssenceSC2(BotAI):
     async def on_start(self) -> None:
         # Debugging:
         logger.info("Game initialized!")
+        
+        # Manager References:
+        self.DebuggingManager: DebuggingManager = DebuggingManager(
+            DRAW_VISIBLITY_PIXELMAP=False,
+            DRAW_PLACEMENT_GRID = False,
+            DRAW_PATHING_GRID=False,
+            DRAW_EXPANSIONS=True
+        )
 
     async def on_step(self, iteration: int) -> None:
-        pass
+        # Updating Managers:
+        await self.DebuggingManager.update(self)
