@@ -1,7 +1,7 @@
 # Written by: Christopher Gholmieh
 # Imports:
 
-# Starcraft II:
+# StarCraft II:
 # > Bot AI:
 from sc2.bot_ai import BotAI
 
