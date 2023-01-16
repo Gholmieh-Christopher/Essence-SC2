@@ -24,9 +24,10 @@ class EssenceSC2(BotAI):
         logger.info("Game initialized!")
 
         # Manager References:
-        self.OpponentInfoManager: OpponentInfoManager = OpponentInfoManager(debug=False)
+        self.OpponentInfoManager: OpponentInfoManager = OpponentInfoManager()
 
         self.DebuggingManager: DebuggingManager = DebuggingManager(
+            DRAW_OPPONENT_BASE_LOCATIONS=True,
             DRAW_VISIBLITY_PIXELMAP=False,
             DRAW_PLACEMENT_GRID=False,
             DRAW_PATHING_GRID=False,

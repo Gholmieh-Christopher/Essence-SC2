@@ -3,7 +3,7 @@
 
 # StarCraft II:
 # > Position:
-from sc2.position import Point2
+from sc2.position import Point3, Point2
 
 # > Bot AI:
 from sc2.bot_ai import BotAI
@@ -15,7 +15,7 @@ from sc2.ids.unit_typeid import UnitTypeId
 import typing
 
 # Dictionaries:
-from bot.dictionaries import STRUCTURE_TRAINS
+from bot.dictionaries import STRUCTURE_TRAINS, TOWNHALL_IDS
 
 # Bases:
 from bot.bases import Manager
@@ -31,22 +31,15 @@ class OpponentInfoManager(Manager):
     """
 
     # Initialization:
-    def __init__(self, debug: bool = False) -> None:
+    def __init__(self) -> None:
         # Dictionaries:
         self.opponent_expansion_locations: typing.Dict[int, Point2] = {}
         self.enemy_structure_cache: dict = {}
 
-        # Booleans:
-        self.debug: bool = debug
-
-        # Sets:
-        self.townhall_ids: typing.Set[UnitTypeId] = {
-            UnitTypeId.PLANETARYFORTRESS,
-            UnitTypeId.ORBITALCOMMAND,
-            UnitTypeId.COMMANDCENTER,
-            UnitTypeId.HATCHERY,
-            UnitTypeId.NEXUS,
-        }
+    # Properties:
+    @property
+    def EXPANSION_LOCATION_COLOR(self) -> Point3:
+        return Point3((255, 0, 0))
 
     # Methods:
     async def update(self, AI: BotAI) -> None:
@@ -55,14 +48,14 @@ class OpponentInfoManager(Manager):
         for enemy_structure in AI.enemy_structures:
             # Updating Expansion Locations:
             if (
-                enemy_structure.type_id in self.townhall_ids
+                enemy_structure.type_id in TOWNHALL_IDS
                 and enemy_structure.tag not in self.opponent_expansion_locations
-                and enemy_structure.position
+                and enemy_structure.position3d
                 not in self.opponent_expansion_locations.values()
             ):
                 self.opponent_expansion_locations[
                     enemy_structure.tag
-                ] = enemy_structure.position
+                ] = enemy_structure.position3d
             elif (
                 enemy_structure.tag in self.opponent_expansion_locations
                 and enemy_structure.position
@@ -70,7 +63,7 @@ class OpponentInfoManager(Manager):
             ):
                 self.opponent_expansion_locations[
                     enemy_structure.tag
-                ] = enemy_structure.position
+                ] = enemy_structure.position3d
 
             if STRUCTURE_TRAINS.get(enemy_structure.type_id) is None:
                 continue
@@ -80,8 +73,3 @@ class OpponentInfoManager(Manager):
                     continue
 
                 self.possible_opponent_units.add(unit_id)
-
-        if self.debug is True:
-            print("Possible opponent units:", self.possible_opponent_units)
-            print("Enemy townhall locations:", self.opponent_expansion_locations)
-            print("------------------------------------------------------------")

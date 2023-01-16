@@ -14,6 +14,9 @@ import dataclasses
 # Numpy:
 import numpy
 
+# Dictionaries:
+from bot.dictionaries import TOWNHALL_IDS
+
 # Bases:
 from bot.bases import Manager
 
@@ -23,47 +26,84 @@ class DebuggingManager(Manager):
     """
     Uses debugging methods from BotAI to represent what the bot has access too.
     Inherits from Manager class.
-    
+
+    :param DRAW_OPPONENT_BASE_LOCATIONS:
     :param DRAW_VISIBILITY_PIXELMAP:
     :param DRAW_PLACEMENT_GRID:
     :param DRAW_PATHING_GRID:
     :param DRAW_EXPANSIONS:
     """
-    
+
+    DRAW_OPPONENT_BASE_LOCATIONS: bool = False
     DRAW_VISIBLITY_PIXELMAP: bool = False
     DRAW_PLACEMENT_GRID: bool = False
     DRAW_PATHING_GRID: bool = False
     DRAW_EXPANSIONS: bool = False
-    
+
     # Properties:
     @property
     def VISIBILITY_PIXELMAP_UNSEEN_COLOR(self) -> Point3:
         return Point3((255, 0, 0))
-    
+
     @property
     def VISIBILITY_PIXELMAP_SEEN_COLOR(self) -> Point3:
         return Point3((255, 255, 255))
 
     @property
+    def OPPONENT_BASE_LOCATIONS(self) -> Point3:
+        return Point3((255, 255, 0))
+
+    @property
     def PLACEMENT_GRID_COLOR(self) -> Point3:
         return Point3((255, 255, 255))
-    
+
     @property
-    def PATHING_GRID_COLOR(self) -> Point3: 
+    def PATHING_GRID_COLOR(self) -> Point3:
         return Point3((0, 255, 0))
-    
+
     @property
     def EXPANSION_COLOR(self) -> Point3:
         return Point3((0, 0, 255))
-    
+
     # Methods:
+    def draw_opponent_base_locations(self, AI: BotAI) -> None:
+        for enemy_townhall in AI.enemy_structures.of_type(TOWNHALL_IDS):
+            opponent_base_location: Point3 = enemy_townhall.position3d
+
+            AI.client.debug_text_world(
+                color=None,
+                text="Enemy base location.",
+                size=16,
+                pos=opponent_base_location,
+            )
+
+            bound_0: Point3 = Point3(
+                (
+                    opponent_base_location.x - 0.25,
+                    opponent_base_location.y - 0.25,
+                    opponent_base_location.z + 0.25,
+                )
+            )
+
+            bound_1: Point3 = Point3(
+                (
+                    opponent_base_location.x + 0.25,
+                    opponent_base_location.y + 0.25,
+                    opponent_base_location.z - 0.25,
+                )
+            )
+
+            AI.client.debug_box_out(
+                bound_0, bound_1, color=self.OPPONENT_BASE_LOCATIONS
+            )
+
     def draw_visibility_pixelmap(self, AI: BotAI) -> None:
         """
         Draws the visibility pixelmap, a grid of what the bot can see, and what the bot can not see.
-        
+
         :param AI:
         """
-        
+
         for (y, x), value in numpy.ndenumerate(AI.state.visibility.data_numpy):
             position: Point2 = Point2((x, y))
 
@@ -97,10 +137,10 @@ class DebuggingManager(Manager):
     def draw_expansions(self, AI: BotAI) -> None:
         """
         Draws a square in the center of each expansion location.
-        
+
         :param AI:
         """
-        
+
         for expansion_position in AI.expansion_locations_list:
             AI.client.debug_box2_out(
                 Point3(
@@ -116,12 +156,12 @@ class DebuggingManager(Manager):
     def draw_grid(self, data_numpy, color: Point3, AI: BotAI) -> None:
         """
         Draws a grid provided the data numpy, the color preffered, and the AI object.
-        
+
         :param data_numpy:
         :param color:
         :param AI:
         """
-        
+
         map_area = AI.game_info.playable_area
 
         for (b, a), value in numpy.ndenumerate(data_numpy):
@@ -163,9 +203,12 @@ class DebuggingManager(Manager):
                 bound_1,
                 color=color,
             )
-            
+
     async def update(self, AI: BotAI) -> None:
         # Calling Methods:
+        if self.DRAW_OPPONENT_BASE_LOCATIONS is True:
+            self.draw_opponent_base_locations(AI)
+
         if self.DRAW_VISIBLITY_PIXELMAP is True:
             self.draw_visibility_pixelmap(AI)
 
