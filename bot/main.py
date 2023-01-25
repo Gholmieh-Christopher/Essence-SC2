@@ -20,6 +20,11 @@ class EssenceSC2(BotAI):
 
     # Events:
     async def on_start(self) -> None:
+        """
+        Called on start of game.
+        Creates manager references.
+        """
+
         # Debugging:
         logger.info("Game initialized!")
 
@@ -35,6 +40,11 @@ class EssenceSC2(BotAI):
         )
 
     async def on_step(self, iteration: int) -> None:
+        """
+        Called every frame.
+        Updates managers.
+        """
+
         # Updating Managers:
         await self.OpponentInfoManager.update(self)
         await self.DebuggingManager.update(self)
