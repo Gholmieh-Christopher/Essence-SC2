@@ -5,6 +5,9 @@
 # > Bot AI:
 from sc2.bot_ai import BotAI
 
+# > Unit:
+from sc2.unit import Unit
+
 # Classes:
 class Manager:
     """
@@ -19,6 +22,20 @@ class Manager:
         """
 
     # Events:
+    async def on_building_construction_complete(self, structure: Unit) -> None:
+        """
+        Called every time a structure is finished being warped.
+
+        :param structure:
+        """
+
+    async def on_building_construction_started(self, structure: Unit) -> None:
+        """
+        Called every time a structure has started to warp.
+
+        :param structure:
+        """
+
     async def on_unit_destroyed(self, unit_tag: int) -> None:
         """
         Meant to be overridden.

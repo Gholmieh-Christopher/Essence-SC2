@@ -5,12 +5,15 @@
 # > Bot AI:
 from sc2.bot_ai import BotAI, Race
 
+# > Unit:
+from sc2.unit import Unit
+
 # Loguru:
 # > Logger:
 from loguru import logger
 
 # Managers:
-from .managers import OpponentInfoManager, DebuggingManager
+from .managers import OpponentInfoManager, DebuggingManager, BuildingManager
 
 # Classes:
 class EssenceSC2(BotAI):
@@ -19,6 +22,12 @@ class EssenceSC2(BotAI):
     NAME: str = "Essence-SC2"
 
     # Events:
+    async def on_building_construction_started(self, structure: Unit):
+        await self.BuildingManager.on_building_construction_started(structure)
+
+    async def on_unit_destroyed(self, unit_tag: int):
+        await self.BuildingManager.on_unit_destroyed(unit_tag)
+
     async def on_start(self) -> None:
         """
         Called on start of game.
@@ -39,6 +48,8 @@ class EssenceSC2(BotAI):
             DRAW_EXPANSIONS=True,
         )
 
+        self.BuildingManager: BuildingManager = BuildingManager()
+
     async def on_step(self, iteration: int) -> None:
         """
         Called every frame.
@@ -48,3 +59,4 @@ class EssenceSC2(BotAI):
         # Updating Managers:
         await self.OpponentInfoManager.update(self)
         await self.DebuggingManager.update(self)
+        await self.BuildingManager.update(self)
