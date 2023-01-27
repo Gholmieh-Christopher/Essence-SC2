@@ -28,6 +28,10 @@ class BuildingManager(Manager):
 
     Also stores structure positions.
     If a structure is destroyed, it will be rebuilt.
+
+    TODO: Create request inherit classes.
+    TODO: Make this build stuff.
+    TODO: Make this rebuild stuff.
     """
 
     # Initialization:

@@ -4,6 +4,7 @@
 # StarCraft II:
 # > IDs:
 from sc2.ids.unit_typeid import UnitTypeId
+from sc2.ids.ability_id import AbilityId
 
 # Dictionaries:
 STRUCTURE_TRAINS: dict = {
@@ -40,4 +41,26 @@ STRUCTURE_TRAINS: dict = {
         UnitTypeId.CARRIER,
         UnitTypeId.TEMPEST,
     },
+}
+
+UNIT_TO_STRUCTURE: dict = {
+    # NOTE: Skipped the warpgate / gateway units because they require special functionality.
+    # Protoss:
+    UnitTypeId.PROBE: {UnitTypeId.NEXUS},
+}
+
+SPECIAL_UNITS: set = {
+    UnitTypeId.ZEALOT,
+    UnitTypeId.STALKER,
+    UnitTypeId.SENTRY,
+    UnitTypeId.DARKTEMPLAR,
+    UnitTypeId.HIGHTEMPLAR,
+}
+
+SPECIAL_TO_WARP: dict = {
+    UnitTypeId.STALKER: AbilityId.WARPGATETRAIN_STALKER,
+    UnitTypeId.ZEALOT: AbilityId.WARPGATETRAIN_ZEALOT,
+    UnitTypeId.SENTRY: AbilityId.WARPGATETRAIN_SENTRY,
+    UnitTypeId.DARKTEMPLAR: AbilityId.WARPGATETRAIN_DARKTEMPLAR,
+    UnitTypeId.HIGHTEMPLAR: AbilityId.WARPGATETRAIN_HIGHTEMPLAR,
 }
