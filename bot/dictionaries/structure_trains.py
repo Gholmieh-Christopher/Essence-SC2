@@ -47,20 +47,35 @@ UNIT_TO_STRUCTURE: dict = {
     # NOTE: Skipped the warpgate / gateway units because they require special functionality.
     # Protoss:
     UnitTypeId.PROBE: {UnitTypeId.NEXUS},
+    # Tier Two:
+    UnitTypeId.WARPPRISM: {UnitTypeId.ROBOTICSFACILITY},
+    UnitTypeId.DISRUPTOR: {UnitTypeId.ROBOTICSFACILITY},
+    UnitTypeId.COLOSSUS: {UnitTypeId.ROBOTICSFACILITY},
+    UnitTypeId.IMMORTAL: {UnitTypeId.ROBOTICSFACILITY},
+    UnitTypeId.OBSERVER: {UnitTypeId.ROBOTICSFACILITY},
+    UnitTypeId.VOIDRAY: {UnitTypeId.STARGATE},
+    UnitTypeId.PHEONIX: {UnitTypeId.STARGATE},
+    UnitTypeId.ORACLE: {UnitTypeId.STARGATE},
+    # Tier 3:
+    UnitTypeId.MOTHERSHIP: {UnitTypeId.NEXUS},
+    UnitTypeId.CARRIER: {UnitTypeId.STARGATE},
+    UnitTypeId.TEMPEST: {UnitTypeId.STARGATE},
 }
 
 SPECIAL_UNITS: set = {
-    UnitTypeId.ZEALOT,
-    UnitTypeId.STALKER,
-    UnitTypeId.SENTRY,
-    UnitTypeId.DARKTEMPLAR,
     UnitTypeId.HIGHTEMPLAR,
+    UnitTypeId.DARKTEMPLAR,
+    UnitTypeId.STALKER,
+    UnitTypeId.ZEALOT,
+    UnitTypeId.SENTRY,
+    UnitTypeId.ADEPT,
 }
 
 SPECIAL_TO_WARP: dict = {
+    UnitTypeId.HIGHTEMPLAR: AbilityId.WARPGATETRAIN_HIGHTEMPLAR,
+    UnitTypeId.DARKTEMPLAR: AbilityId.WARPGATETRAIN_DARKTEMPLAR,
     UnitTypeId.STALKER: AbilityId.WARPGATETRAIN_STALKER,
     UnitTypeId.ZEALOT: AbilityId.WARPGATETRAIN_ZEALOT,
     UnitTypeId.SENTRY: AbilityId.WARPGATETRAIN_SENTRY,
-    UnitTypeId.DARKTEMPLAR: AbilityId.WARPGATETRAIN_DARKTEMPLAR,
-    UnitTypeId.HIGHTEMPLAR: AbilityId.WARPGATETRAIN_HIGHTEMPLAR,
+    UnitTypeId.ADEPT: AbilityId.TRAINWARP_ADEPT,
 }
