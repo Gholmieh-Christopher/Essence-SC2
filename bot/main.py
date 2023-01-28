@@ -48,7 +48,9 @@ class EssenceSC2(BotAI):
             DRAW_EXPANSIONS=True,
         )
 
-        self.BuildingManager: BuildingManager = BuildingManager()
+        self.BuildingManager: BuildingManager = BuildingManager(
+            self.OpponentInfoManager
+        )
 
     async def on_step(self, iteration: int) -> None:
         """

@@ -34,6 +34,6 @@ class Request:
 
     action_id: typing.Union[UnitTypeId, UpgradeId]
 
-    position: typing.Optional[Point2]
+    position: typing.Union[typing.Callable, Point2, None]
 
     quantity: int

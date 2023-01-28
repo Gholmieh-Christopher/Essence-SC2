@@ -127,8 +127,15 @@ class SupplyRequest(Request):
             case RequestTypes.BUILD_TYPE:
                 if self._valid_attempts == self.quantity:
                     return True
-                
-                position: Point2 = await AI.find_placement(self.action_id, near=self.position)
+
+                position: typing.Union[typing.Callable, Point2] = self.position
+                if isinstance(position, Point2) is False:
+                    position = position(AI)
+
+                position: Point2 = await AI.find_placement(
+                    self.action_id, near=position
+                )
+
                 if position is None:
                     return False
 

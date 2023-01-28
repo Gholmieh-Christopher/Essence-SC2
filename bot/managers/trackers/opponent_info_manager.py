@@ -28,6 +28,7 @@ class OpponentInfoManager(Manager):
         Defines their expansion locations.
 
         TODO: Define ghost unit positions.
+        TODO: If the enemy has a race of random, be able to identify their race by units or structures.
     """
 
     # Initialization:

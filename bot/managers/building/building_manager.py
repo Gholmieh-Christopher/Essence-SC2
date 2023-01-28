@@ -6,7 +6,7 @@
 from sc2.position import Point2
 
 # > Bot AI:
-from sc2.bot_ai import BotAI
+from sc2.bot_ai import BotAI, Race
 
 # > Unit:
 from sc2.unit import Unit
@@ -16,6 +16,13 @@ from sc2.ids.unit_typeid import UnitTypeId
 
 # Typing:
 import typing
+
+# Sequences:
+from .sequences import DoubleGate
+
+# Managers:
+# > Trackers:
+from bot.managers.trackers import OpponentInfoManager
 
 # Bases:
 from bot.bases import Manager
@@ -35,12 +42,21 @@ class BuildingManager(Manager):
     """
 
     # Initialization:
-    def __init__(self) -> None:
+    def __init__(self, OpponentInfoManager: OpponentInfoManager) -> None:
+        # Miscellaneous:
+        self.OpponentInfoManager: OpponentInfoManager = OpponentInfoManager
+        self.sequence = DoubleGate().sequential_list
+
         # Dictionaries:
         self.structures: typing.Dict[int, typing.List[UnitTypeId, Point2]] = {}
 
         # Lists:
         self.rebuild_queue: list = []
+
+    # Properties:
+    @property
+    def matchup_to_build(self) -> dict:
+        return {Race.Protoss: [DoubleGate]}
 
     # Methods:
     async def update(self, AI: BotAI) -> None:
