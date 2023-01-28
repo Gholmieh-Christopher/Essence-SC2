@@ -54,7 +54,7 @@ UNIT_TO_STRUCTURE: dict = {
     UnitTypeId.IMMORTAL: {UnitTypeId.ROBOTICSFACILITY},
     UnitTypeId.OBSERVER: {UnitTypeId.ROBOTICSFACILITY},
     UnitTypeId.VOIDRAY: {UnitTypeId.STARGATE},
-    UnitTypeId.PHEONIX: {UnitTypeId.STARGATE},
+    UnitTypeId.PHOENIX: {UnitTypeId.STARGATE},
     UnitTypeId.ORACLE: {UnitTypeId.STARGATE},
     # Tier 3:
     UnitTypeId.MOTHERSHIP: {UnitTypeId.NEXUS},
