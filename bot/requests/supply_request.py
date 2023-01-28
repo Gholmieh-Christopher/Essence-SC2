@@ -11,6 +11,9 @@ from sc2.bot_ai import BotAI
 # > Units:
 from sc2.units import Units
 
+# > Unit:
+from sc2.unit import Unit
+
 # > IDs:
 from sc2.ids.unit_typeid import UnitTypeId
 from sc2.ids.upgrade_id import UpgradeId
@@ -120,3 +123,22 @@ class SupplyRequest(Request):
                         self._valid_attempts += 1
 
                         return True
+
+            case RequestTypes.BUILD_TYPE:
+                if self._valid_attempts == self.quantity:
+                    return True
+                
+                position: Point2 = await AI.find_placement(self.action_id, near=self.position)
+                if position is None:
+                    return False
+
+                # TODO: Add a filter.
+                worker: typing.Optional[Unit] = AI.workers.closest_to(position)
+                if worker is None:
+                    return False
+
+                worker.build(self.action_id, position)
+
+                self._valid_attempts += 1
+
+                return True
