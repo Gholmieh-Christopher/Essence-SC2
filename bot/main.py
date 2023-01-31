@@ -13,7 +13,7 @@ from sc2.unit import Unit
 from loguru import logger
 
 # Managers:
-from .managers import OpponentInfoManager, DebuggingManager, BuildingManager
+from .managers import OpponentInfoManager, DebuggingManager, ExecutionManager
 
 # Classes:
 class EssenceSC2(BotAI):
@@ -23,10 +23,10 @@ class EssenceSC2(BotAI):
 
     # Events:
     async def on_building_construction_started(self, structure: Unit):
-        await self.BuildingManager.on_building_construction_started(structure)
+        await self.ExecutionManager.on_building_construction_started(structure)
 
     async def on_unit_destroyed(self, unit_tag: int):
-        await self.BuildingManager.on_unit_destroyed(unit_tag)
+        await self.ExecutionManager.on_unit_destroyed(unit_tag)
 
     async def on_start(self) -> None:
         """
@@ -48,9 +48,7 @@ class EssenceSC2(BotAI):
             DRAW_EXPANSIONS=True,
         )
 
-        self.BuildingManager: BuildingManager = BuildingManager(
-            self.OpponentInfoManager
-        )
+        self.ExecutionManager: ExecutionManager = ExecutionManager()
 
     async def on_step(self, iteration: int) -> None:
         """
@@ -61,4 +59,4 @@ class EssenceSC2(BotAI):
         # Updating Managers:
         await self.OpponentInfoManager.update(self)
         await self.DebuggingManager.update(self)
-        await self.BuildingManager.update(self)
+        await self.ExecutionManager.update(self)
