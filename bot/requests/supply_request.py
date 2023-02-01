@@ -44,11 +44,7 @@ class SupplyRequest(Request):
     :param supply_trigger:
     """
 
-    supply_trigger: int
-
-    _valid_attempts: int = 0
-
-    attempted: bool = False
+    supply_trigger: int = 12
 
     # Methods:
     async def execute(self, AI: BotAI) -> bool:

@@ -17,6 +17,9 @@ from sc2.ids.unit_typeid import UnitTypeId
 # Typing:
 import typing
 
+# Enumerations:
+from bot.enumerations import RequestTypes
+
 # Bases:
 from bot.bases import Manager, Request
 
@@ -24,7 +27,7 @@ from bot.bases import Manager, Request
 class ExecutionManager(Manager):
     """
     Builds structures for Essence-SC2.
-    Can take orders from outside sources using queue method.
+    Can take orders from outside sources using add_request method.
 
     Also stores structure positions.
     If a structure is destroyed, it will be rebuilt.
@@ -37,8 +40,6 @@ class ExecutionManager(Manager):
         self.structures: typing.Dict[int, typing.List[UnitTypeId, Point2]] = {}
 
         # Lists:
-        self.rebuild_queue: list = []
-
         self.verifying: list = []
         self.requests: list = []
         self.cleanup: list = []
@@ -57,6 +58,7 @@ class ExecutionManager(Manager):
         return True
 
     async def update(self, AI: BotAI) -> None:
+        # Executing Requests:
         for awaited_request in self.requests:
             result: bool = await awaited_request.execute(AI)
 
@@ -97,5 +99,15 @@ class ExecutionManager(Manager):
         if unit_tag not in self.structures:
             return None
 
-        self.rebuild_queue.append(self.structures[unit_tag])
+        rebuild_data: list = self.structures[unit_tag]
+
+        self.requests.append(
+            Request(
+                request_type=RequestTypes.BUILD_TYPE,
+                action_id=rebuild_data[0],
+                position=rebuild_data[1],
+                quantity=1,
+            )
+        )
+
         del self.structures[unit_tag]
