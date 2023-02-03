@@ -1,1 +1,1 @@
-from .debugger_manager import DebuggerManager
+from .debugging_manager import DebuggingManager

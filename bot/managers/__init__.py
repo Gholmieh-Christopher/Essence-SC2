@@ -1,3 +1,3 @@
-from .miscellaneous import DebuggerManager
-from .game_sense import GameInfoManager
-from .strategy import StepManager
+from .miscellaneous import DebuggingManager
+from .trackers import OpponentInfoManager
+from .execution import ExecutionManager

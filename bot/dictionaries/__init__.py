@@ -1,2 +1,7 @@
-from .structure_links import PROTOSS, TERRAN, ZERG
-from .unit_links import PROTOSS_UNIT_LINKS, WARPGATE_UNITS, UNIT_TO_WARP
+from .structure_trains import (
+    STRUCTURE_TRAINS,
+    UNIT_TO_STRUCTURE,
+    SPECIAL_UNITS,
+    SPECIAL_TO_WARP,
+)
+from .townhall_ids import TOWNHALL_IDS
