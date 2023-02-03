@@ -62,86 +62,84 @@ class SupplyRequest(Request):
         # Main:
         self.attempted = True
 
-        match self.request_type:
-            case RequestTypes.TRAIN_TYPE:
-                options: set = UNIT_TO_STRUCTURE[self.action_id]
+        if self.request_type == RequestTypes.TRAIN_TYPE:
+            options: typing.Optional[typing.Set] = UNIT_TO_STRUCTURE.get(self.action_id, set())
 
-                structures: Units = AI.structures.of_type(options)
-                if not any(structures):
-                    return False
-
-                for iteration in range(self.quantity):
-                    if self._valid_attempts == self.quantity:
-                        return True
-
-                    if (
-                        self.action_id in SPECIAL_UNITS
-                        and UpgradeId.WARPGATERESEARCH in AI.state.upgrades
-                    ):
-                        position: typing.Optional[Point2] = self.position
-
-                        if position is None:
-                            pylons: Units = AI.structures.of_type(UnitTypeId.PYLON)
-                            if not any(pylons):
-                                return False
-
-                        position = AI.find_placement(self.action_id, near=position)
-                        if position is None:
-                            return False
-
-                        warpgates: Units = AI.structures.of_type(
-                            UnitTypeId.WARPGATE
-                        ).ready.filter(
-                            lambda warpgate: SPECIAL_TO_WARP[self.action_id]
-                            in AI.get_available_abilities(warpgate)
-                        )
-                        if not any(warpgates):
-                            return False
-
-                        warpgates.random.warp_in(self.action_id, position)
-
-                        self._valid_attempts += 1
-                    else:
-
-                        structure = None
-
-                        idle_structures: Units = structures.filter(
-                            lambda structure: structure.is_idle
-                        )
-
-                        if not any(idle_structures):
-                            structure = structures.random
-                        else:
-                            structure = idle_structures.random
-
-                        structure.train(self.action_id)
-
-                        self._valid_attempts += 1
-
-                        return True
-
-            case RequestTypes.BUILD_TYPE:
+            for iteration in range(self.quantity):
                 if self._valid_attempts == self.quantity:
                     return True
 
-                position: typing.Union[typing.Callable, Point2] = self.position
-                if isinstance(position, Point2) is False:
-                    position = position(AI)
+                if (
+                    self.action_id in SPECIAL_UNITS
+                    and UpgradeId.WARPGATERESEARCH in AI.state.upgrades
+                ):
+                    position: typing.Optional[Point2] = self.position
 
-                position: Point2 = await AI.find_placement(
-                    self.action_id, near=position
-                )
+                    if position is None:
+                        pylons: Units = AI.structures.of_type(UnitTypeId.PYLON)
+                        if not any(pylons):
+                            return False
 
-                if position is None:
-                    return False
+                    position = AI.find_placement(self.action_id, near=position)
+                    if position is None:
+                        return False
 
-                # TODO: Add a filter.
-                worker: typing.Optional[Unit] = AI.workers.closest_to(position)
-                if worker is None:
-                    return False
+                    warpgates: Units = AI.structures.of_type(
+                        UnitTypeId.WARPGATE
+                    ).ready.filter(
+                        lambda warpgate: SPECIAL_TO_WARP[self.action_id]
+                        in AI.get_available_abilities(warpgate)
+                    )
+                    if not any(warpgates):
+                        return False
 
-                worker.build(self.action_id, position)
+                    warpgates.random.warp_in(self.action_id, position)
 
-                self._valid_attempts += 1
+                    self._valid_attempts += 1
+                else:
 
+                    structures: Units = AI.structures.of_type(options).ready
+                    if not any(structures):
+                        return False
+
+                    structure = None
+
+                    idle_structures: Units = structures.filter(
+                        lambda structure: structure.is_idle
+                    )
+                    if not any(idle_structures):
+                        return False
+
+                    structure = idle_structures.random
+
+                    structure.train(self.action_id)
+
+                    self._valid_attempts += 1
+
+                    return True
+
+        elif self.request_type == RequestTypes.BUILD_TYPE:
+            if self._valid_attempts == self.quantity:
                 return True
+
+            position: typing.Union[typing.Callable, Point2] = self.position
+            if isinstance(position, Point2) is False:
+                position = position(AI)
+
+            position: Point2 = await AI.find_placement(
+                self.action_id, near=position
+            )
+
+            if position is None:
+                return False
+
+            # TODO: Add a filter.
+            worker: typing.Optional[Unit] = AI.workers.closest_to(position)
+            if worker is None:
+                return False
+
+            worker.build(self.action_id, position, queue = True)
+
+            self._valid_attempts += 1
+
+            return True

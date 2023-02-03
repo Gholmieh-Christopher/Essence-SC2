@@ -47,7 +47,13 @@ UNIT_TO_STRUCTURE: dict = {
     # NOTE: Skipped the warpgate / gateway units because they require special functionality.
     # Protoss:
     UnitTypeId.PROBE: {UnitTypeId.NEXUS},
+    # Tier One:
+    UnitTypeId.STALKER: {UnitTypeId.GATEWAY},
+    UnitTypeId.ZEALOT: {UnitTypeId.GATEWAY},
+    UnitTypeId.SENTRY:{UnitTypeId.GATEWAY},
     # Tier Two:
+    UnitTypeId.HIGHTEMPLAR: {UnitTypeId.GATEWAY},
+    UnitTypeId.DARKTEMPLAR: {UnitTypeId.GATEWAY},
     UnitTypeId.WARPPRISM: {UnitTypeId.ROBOTICSFACILITY},
     UnitTypeId.DISRUPTOR: {UnitTypeId.ROBOTICSFACILITY},
     UnitTypeId.COLOSSUS: {UnitTypeId.ROBOTICSFACILITY},

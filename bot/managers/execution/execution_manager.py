@@ -45,14 +45,10 @@ class ExecutionManager(Manager):
         self.cleanup: list = []
 
     # Methods:
-    async def add_request(
-        self, request: Request, ignore_requirements: bool = False
-    ) -> bool:
-
-        if ignore_requirements is False:
-            for awaited_request in self.requests:
-                if awaited_request.action_id == request.action_id:
-                    return False
+    async def add_request(self, request: Request) -> bool:
+        # Guardian Statements:
+        if request in self.requests:
+            return False
 
         self.requests.append(request)
         return True

@@ -69,8 +69,7 @@ class Request:
         if AI.can_afford(self.action_id) is False:
             return False
 
-        match self.request_type:
-            case RequestTypes.TRAIN_TYPE:
+        if self.request_type == RequestTypes.TRAIN_TYPE:
                 options: set = UNIT_TO_STRUCTURE[self.action_id]
 
                 structures: Units = AI.structures.of_type(options)
@@ -127,7 +126,7 @@ class Request:
 
                         return True
 
-            case RequestTypes.BUILD_TYPE:
+        elif self.request_type == RequestTypes.BUILD_TYPE:
                 if self._valid_attempts == self.quantity:
                     return True
 
